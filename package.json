@@ -1,6 +1,6 @@
 {
   "name": "svelte-store2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Svelte store2",
   "description": "Extended Svelte stores with additional methods.",
   "keywords": [
