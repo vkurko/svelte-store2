@@ -1,7 +1,7 @@
 # Svelte store2
-Sometimes you need to retrieve the value of a store outside of component or to which you're not subscribed. For this Svelte provides [get()](https://svelte.dev/docs#get) function, but it works by creating a temporary subscription which may not be what you would expect.
+Sometimes you need to get a store value outside of a component or component that you are not subscribed to. Svelte provides a [get()](https://svelte.dev/docs#get) function for this, but it works by creating a temporary subscription, which may not be what you expect.
 
-Store2 provides `writable2`, `derived2` and `readable2` stores, each of which has a `get()` method to retrieve the current value of the store.
+Store2 provides `writable2`, `derived2` and `readable2` stores, each with a `get()` method to retrieve the current store value.
 
 ## Usage
 Install the package:
