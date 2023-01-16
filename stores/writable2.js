@@ -2,21 +2,22 @@ import {writable} from 'svelte/store';
 
 /**
  * Writable store with get() method
+ *
+ * @param value - initial value
+ * @param start - start and stop notifications for subscriptions
  */
 export function writable2(value, start) {
-    let storeValue = value;
-    let {set, ...rest} = writable(value, start);
+    let {set: _set, subscribe} = writable(value, start);
+
+    function set(newValue) {
+        value = newValue;
+        _set(value);
+    }
 
     return {
-        ...rest,
-        set: value => {
-            storeValue = value;
-            set(value);
-        },
-        update: fn => {
-            storeValue = fn(value);
-            set(storeValue);
-        },
-        get: () => storeValue,
+        set,
+        update: fn => set(fn(value)),
+        subscribe,
+        get: () => value,
     };
 }

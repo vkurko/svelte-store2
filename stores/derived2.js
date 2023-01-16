@@ -3,20 +3,23 @@ import {is_function} from 'svelte/internal';
 
 /**
  * Derived store with get() method
+ *
+ * @param stores - input stores
+ * @param fn - function callback that aggregates the values
+ * @param value - initial value, when used asynchronously
  */
-export function derived2(stores, fn, initValue) {
-    let storeValue = initValue;
+export function derived2(stores, fn, value) {
     let hasSubscribers = false;
     let auto = fn.length < 2;
     let fn2 = (_, set) => {
         hasSubscribers = true;
         let cleanup;
         if (auto) {
-            storeValue = fn(_, set);
-            set(storeValue);
+            value = fn(_);
+            set(value);
         } else {
-            cleanup = fn(_, value => {
-                storeValue = value;
+            cleanup = fn(_, newValue => {
+                value = newValue;
                 set(value);
             });
         }
@@ -27,10 +30,10 @@ export function derived2(stores, fn, initValue) {
             hasSubscribers = false;
         };
     };
-    let store = derived(stores, fn2, initValue);
+    let store = derived(stores, fn2, value);
 
     return {
         ...store,
-        get: () => hasSubscribers ? storeValue : get(store)
+        get: () => hasSubscribers ? value : get(store)
     };
 }
